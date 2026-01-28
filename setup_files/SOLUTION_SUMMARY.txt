@@ -1,0 +1,184 @@
+
+╔════════════════════════════════════════════════════════════════════════╗
+║                 QUANTUM TESTBED PARALLEL RUNNERS                       ║
+║                        SOLUTION SUMMARY                                ║
+╚════════════════════════════════════════════════════════════════════════╝
+
+🎯 PROBLEM SOLVED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Your original run_full_mabs_pipeline.py had:
+❌ Nested loops causing memory accumulation
+❌ Process getting stuck after each allocator
+❌ No way to run papers in parallel
+❌ Difficult to debug individual papers
+
+✅ NEW SOLUTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ OOP-based architecture with base class
+✅ Separate runner per paper (clean isolation)
+✅ Parallel execution in multiple windows/processes
+✅ Automatic memory cleanup between allocators
+✅ Easy to debug and extend
+
+📦 FILES CREATED (9 total)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Core Files:
+  1. paper_runner_base.py          Base class with common functionality
+  2. run_default.py                 Your original framework testbed
+  3. run_paper2.py                  Paper 2 (Huang 2023) runner
+  4. run_paper7.py                  Paper 7 (Liu 2024 QBGP) runner
+  5. run_paper12.py                 Paper 12 (Wang 2024 QuARC) runner
+
+Utility Scripts:
+  6. launch_all_testbeds.py         Master launcher (parallel execution)
+  7. monitor_testbeds.py            Real-time process monitoring
+  8. compare_results.py             Compare results across testbeds
+
+Documentation:
+  9. README_TESTBED_RUNNERS.md      Complete usage guide
+
+🚀 USAGE OPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Option 1: Individual Papers (Separate Windows) ⭐ RECOMMENDED
+──────────────────────────────────────────────────────────────────────
+Terminal 1:  python run_default.py
+Terminal 2:  python run_paper2.py
+Terminal 3:  python run_paper7.py
+Terminal 4:  python run_paper12.py
+
+Option 2: All Papers in Parallel (Single Command)
+──────────────────────────────────────────────────────────────────────
+python launch_all_testbeds.py
+
+Option 3: Monitor Running Testbeds
+──────────────────────────────────────────────────────────────────────
+python monitor_testbeds.py
+
+Option 4: Compare Results
+──────────────────────────────────────────────────────────────────────
+python compare_results.py
+
+🎛️ CONFIGURATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Each runner has its own config in the configure() method:
+
+Example: run_paper2.py
+──────────────────────────────────────────────────────────────────────
+def configure(self):
+    self.config = {
+        'num_paths': 8,
+        'total_qubits': 35,
+        'use_gate_error': True,      # ← Toggle features
+        'use_memory_decay': True,    # ← Toggle features
+        # ...
+    }
+
+Test vs Production Mode:
+──────────────────────────────────────────────────────────────────────
+runner = Paper2Runner(test_mode=True)   # Quick validation
+runner = Paper2Runner(test_mode=False)  # Full experiments
+
+Customize Experiments:
+──────────────────────────────────────────────────────────────────────
+runner.run(
+    allocators=['Default', 'Random', 'Dynamic', 'ThompsonSampling'],
+    scales=[1.0, 1.5, 2.0],
+    runs=[3, 5, 10]
+)
+
+🧹 MEMORY MANAGEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Each runner includes:
+✅ Automatic cleanup between allocators (deep_cleanup())
+✅ Torch CUDA cache clearing
+✅ Python garbage collection
+✅ Process isolation (no shared memory)
+
+📊 OUTPUT STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+results/
+├── default_allocator_Default_20251230_123456.csv
+├── paper2_allocator_Random_20251230_123500.csv
+├── paper7_allocator_Dynamic_20251230_123505.csv
+└── paper12_allocator_ThompsonSampling_20251230_123510.csv
+
+🎯 KEY BENEFITS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. No Resource Conflicts    Each paper runs independently
+2. Parallel Execution        All 4 papers run simultaneously
+3. Easy Debugging           Focus on one paper at a time
+4. Scalable                 Easy to add Paper 13, 14, etc.
+5. Clean Code              OOP vs messy nested loops
+6. Memory Safe             Automatic cleanup prevents leaks
+7. Flexible                Run any combination of papers
+8. Monitorable             Track progress in real-time
+
+📝 WORKFLOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Step 1: Verify Setup
+──────────────────────────────────────────────────────────────────────
+python run_default.py  # Test with your original framework first
+
+Step 2: Test Individual Papers
+──────────────────────────────────────────────────────────────────────
+python run_paper2.py   # Validate Paper 2 implementation
+python run_paper7.py   # Validate Paper 7 implementation
+python run_paper12.py  # Validate Paper 12 implementation
+
+Step 3: Production Run (Choose One)
+──────────────────────────────────────────────────────────────────────
+# Option A: Sequential (safe, slower)
+python run_default.py && python run_paper2.py && python run_paper7.py && python run_paper12.py
+
+# Option B: Parallel (fast, resource-intensive)
+python launch_all_testbeds.py
+
+Step 4: Monitor (Optional)
+──────────────────────────────────────────────────────────────────────
+python monitor_testbeds.py  # Watch real-time progress
+
+Step 5: Analyze Results
+──────────────────────────────────────────────────────────────────────
+python compare_results.py  # Compare all testbeds
+
+🔧 TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Issue: Module not found
+Fix: Check you're in correct directory with src/ folder
+
+Issue: Out of memory
+Fix: Reduce batch size:
+     self.current_experiments = 1
+
+Issue: Process hangs
+Fix: Kill manually:
+     ps aux | grep python
+     kill -9 <PID>
+
+Issue: CUDA errors
+Fix: Disable CUDA or clear cache manually
+
+✅ TESTING CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+□ Copy all 9 files to project directory
+□ Verify imports work (python -c "from paper_runner_base import PaperRunner")
+□ Test run_default.py first
+□ Test run_paper2.py
+□ Test run_paper7.py
+□ Test run_paper12.py
+□ Try monitor_testbeds.py
+□ Try launch_all_testbeds.py for parallel
+□ Analyze with compare_results.py
+
+🎓 NEXT STEPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Run test_mode=True first for validation
+2. Switch to test_mode=False for production
+3. Increase runs and scales for final experiments
+4. Use parallel execution for efficiency
+5. Compare results across all testbeds
+6. Write paper! 🎉
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                         YOU'RE READY TO GO! 🚀
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
