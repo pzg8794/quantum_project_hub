@@ -1,0 +1,10 @@
+qcast/plot
+qcast/blobbing
+graphs
+requests
+results
+figures
+.DS_Store
+*/.DS_Store
+__pycache__/*
+*/__pycache__/*
