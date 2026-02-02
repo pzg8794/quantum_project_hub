@@ -228,7 +228,7 @@ class QuantumExperimentRunner:
                     return True
             except Exception as e: 
                 print(f"\t\t❌ {e}")
-        
+        self.resumed = False
         print("\t[Resume-RegistrySet] ❌ No valid matches found in registry set.")
         return False
 
@@ -275,6 +275,7 @@ class QuantumExperimentRunner:
                 print("\t[Resume] exact failed → Looking for relative match")
                 sub_registry = self._get_relative_set_registry()
                 return self._resume_from_registry_set(sub_registry)
+        self.resumed = False
         return self.resumed
 
 
@@ -469,9 +470,10 @@ class QuantumExperimentRunner:
                         pass
                         # del model
                         # gc.collect()
+                self.configs.use_last_backup = False    
             except Exception as e:
                 print(f"\t❌ Failed to create {alg_name}: {e}")
-                results = {'final_reward': 0.0, 'error': str(e)}
+                results = {'final_reward': 0.0, 'error': str(e), 'retries': 0}
         return results, model
 
     def _get_min_efficiency(self, model_name, env_type='stochastic') -> float:
@@ -687,8 +689,8 @@ class QuantumExperimentRunner:
                 self.configs.overwrite = False  # always False during retries
                 alg_result, temp_model = self.run_algorithm(alg_name)
                 final_reward = alg_result.get('final_reward', 0.0)
-                failed_attempts['failed'] += alg_result['retries']
-                failed_attempts['total'] += alg_result['retries']
+                failed_attempts['failed'] += alg_result.get('retries', 0)
+                failed_attempts['total'] += alg_result.get('retries', 0)
                 threshold = final_reward / oracle_reward if oracle_reward > 0 else 0
                 efficiency = threshold * 100 if oracle_reward > 0 else self.get_oracle_reward(reset=True)
                 gap = 100 - efficiency
@@ -719,6 +721,7 @@ class QuantumExperimentRunner:
 
                 if failed_attempts['under_threshold'] >= 3 or (hasattr(temp_model, 'resumed') and temp_model.resumed): break
                 # if failed_attempts['under_threshold'] >= 3 or temp_model.state == 1:break
+            self.configs.use_last_backup = False
 
         # 🔐 Save best model after loop (not last model)
         if model is not None:
