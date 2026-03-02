@@ -110,6 +110,85 @@ class Paper2TopologyGenerator(TopologyGenerator):
         }
 
 
+# ============================================================================
+# Paper 8: Random Connected Graph Topology Generator
+# ============================================================================
+
+class Paper8RandomConnectedTopologyGenerator(TopologyGenerator):
+    """
+    Paper 8 topology: random connected Erdos-Renyi graph with per-edge channel
+    attributes and per-node swap success probabilities.
+
+    This generator ONLY constructs the graph + attributes. Path enumeration and
+    allocation (contexts) remain separate concerns (same as Paper2/7/12).
+    """
+
+    def __init__(
+        self,
+        *,
+        num_nodes: int = 50,
+        connection_prob: float = 0.08,
+        seed: int = 42,
+        fidelity_range: Tuple[float, float] = (0.6, 0.99),
+        rate_range: Tuple[float, float] = (0.7, 1.0),
+        pur_round_range: Tuple[int, int] = (0, 4),
+        swap_success_range: Tuple[float, float] = (0.7, 0.99),
+        distance_range: Tuple[float, float] = (1.0, 10.0),
+        max_tries: int = 200,
+        testbed: str = "paper8",
+    ):
+        self.num_nodes = int(num_nodes)
+        self.connection_prob = float(connection_prob)
+        self.seed = int(seed)
+        self.fidelity_range = (float(fidelity_range[0]), float(fidelity_range[1]))
+        self.rate_range = (float(rate_range[0]), float(rate_range[1]))
+        self.pur_round_range = (int(pur_round_range[0]), int(pur_round_range[1]))
+        self.swap_success_range = (float(swap_success_range[0]), float(swap_success_range[1]))
+        self.distance_range = (float(distance_range[0]), float(distance_range[1]))
+        self.max_tries = int(max_tries)
+        self.testbed = str(testbed)
+
+        if not (0.0 < self.connection_prob < 1.0):
+            raise ValueError("connection_prob must be in (0, 1).")
+        if self.num_nodes < 2:
+            raise ValueError("num_nodes must be >= 2.")
+
+    def generate(self) -> nx.Graph:
+        rng = np.random.default_rng(self.seed)
+
+        G = None
+        for _ in range(max(1, self.max_tries)):
+            candidate = nx.erdos_renyi_graph(self.num_nodes, self.connection_prob, seed=int(rng.integers(0, 2**31 - 1)))
+            if candidate.number_of_edges() > 0 and nx.is_connected(candidate):
+                G = candidate
+                break
+        if G is None:
+            raise RuntimeError(
+                f"Could not generate a connected ER graph after {self.max_tries} tries "
+                f"(n={self.num_nodes}, p={self.connection_prob})."
+            )
+
+        # Assign per-edge channel attributes expected by Paper 8 code.
+        for u, v in G.edges():
+            G[u][v]["fidelity"] = float(rng.uniform(*self.fidelity_range))
+            G[u][v]["rate"] = float(rng.uniform(*self.rate_range))
+            # Keep numpy's semantics: low inclusive, high exclusive
+            pur_low, pur_high = self.pur_round_range
+            pur_high_excl = max(pur_low + 1, pur_high)
+            G[u][v]["pur_round"] = int(rng.integers(pur_low, pur_high_excl))
+            G[u][v]["distance"] = float(rng.uniform(*self.distance_range))
+
+        # Assign per-node swapping success probabilities.
+        for n in G.nodes():
+            G.nodes[n]["swap_success"] = float(rng.uniform(*self.swap_success_range))
+
+        G.graph["testbed"] = self.testbed
+        G.graph["num_nodes"] = self.num_nodes
+        G.graph["connection_prob"] = self.connection_prob
+
+        return G
+
+
 
 
 # class Paper2TopologyGenerator(TopologyGenerator):

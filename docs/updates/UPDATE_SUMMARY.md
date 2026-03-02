@@ -1,5 +1,15 @@
 # 📋 Documentation Update Summary
 
+## ✅ Update (March 2, 2026) — Paper 8 core integration starts
+
+- Added Paper 8 core components (no standalone per-paper “testbed object” module):
+  - `daqr/core/topology_generator.py`: `Paper8RandomConnectedTopologyGenerator`
+  - `daqr/core/quantum_physics.py`: `Paper8NoiseModel`, `Paper8FidelityCalculator`
+- Wired Paper 8 into the existing notebook physics helper flow:
+  - `notebooks/H-MABs_Eval-T_XQubit_Alloc_XQRuns.ipynb` now supports `physics_model="paper8"` and generates per-path allocation contexts from the allocator’s `qubit_cap`.
+- Added a tiny dry-run validator:
+  - `tools/test_paper8_dry_run.py` (skips if deps aren’t installed; no full runs)
+
 **Completed January 25, 2026**
 
 ---
