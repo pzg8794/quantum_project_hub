@@ -630,10 +630,10 @@ def test_rq3b_capacity_paradox():
         
         print(f"{scale:<10.1f} {efficiencies[0]:>10.1f}% {efficiencies[1]:>10.1f}% {efficiencies[2]:>10.1f}% {efficiencies[3]:>10.1f}%")
     
-    print(f"\n✓ Key Finding: Non-monotone scaling detected")
+    print(f"\n✓ Key Finding: Capacity scaling is not guaranteed monotone")
     print(f"  - s=1.0: baseline performance")
-    print(f"  - s=1.5: potential degradation under Adaptive scenarios")
-    print(f"  - s=2.0: recovery with larger replay budget")
+    print(f"  - s=1.5: intermediate scale can improve")
+    print(f"  - s=2.0: higher scale can regress (not 'more is better')")
     print(f"\n✓ Implication: Replay is NOT a 'more is better' knob.")
     print(f"  Capacity specification must co-design with allocator policy.")
     print(f"\n✓ PASS: RQ3b Capacity Paradox Analysis")

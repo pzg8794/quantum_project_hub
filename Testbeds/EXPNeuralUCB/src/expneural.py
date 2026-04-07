@@ -338,7 +338,8 @@ for frame in range(frame_number):
     if oracle_r < 0:
         oracle_r = 0
 
-    regret = regret + abs(oracle_r)
+    import builtins
+    regret = regret + builtins.abs(oracle_r)
     regret_list_neuralucbexp.append(regret)
 # print(estimate_path_action_list)
 end_time = time.time()

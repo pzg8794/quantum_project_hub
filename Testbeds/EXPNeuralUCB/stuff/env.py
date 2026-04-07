@@ -1,12 +1,14 @@
 import numpy as np
 import pandas as pd
 import random as rd
+from pathlib import Path
 
 class IRIS():
     def __init__(self):
         self.arm = 3
         self.dim = 12
-        self.data = pd.read_csv('Iris.csv')
+        dataset_path = Path(__file__).resolve().parents[1] / 'dataset' / 'Iris.csv'
+        self.data = pd.read_csv(dataset_path)
 
     def step(self):
         r = rd.randint( 0, 149)
@@ -16,10 +18,10 @@ class IRIS():
             target = 1
         else:
             target = 2
-        random = self.data.loc[r]
+        random = self.data.iloc[r]
         x = np.zeros(4)
         for i in range(1,5):
-            x[i-1] = random[i]
+            x[i-1] = random.iloc[i]
         X_n = []
         for i in range(3):
             front = np.zeros((4 * i))

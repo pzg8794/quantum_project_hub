@@ -86,7 +86,7 @@ RQ3a: Predictive Context (iCPursuit vs CPursuit)
 
 RQ3b: Capacity Scaling (Non-monotone!)
 - Configuration: Sweep s ∈ {1.0, 1.5, 2.0}
-- Key Finding: s=1.5 can degrade under Adaptive scenarios
+- Key Finding: replay scale is non-monotone — intermediate scale (s=1.5) can improve, but higher scale (s=2.0) can regress
 - Implication: Larger replay ≠ better performance
 
 RQ3c: Allocator Co-Design

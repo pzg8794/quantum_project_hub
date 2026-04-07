@@ -892,10 +892,10 @@ for scale in scales:
     
     print(f"{scale:<10.1f} {efficiencies[0]:>10.1f}% {efficiencies[1]:>10.1f}% {efficiencies[2]:>10.1f}% {efficiencies[3]:>10.1f}%")
 
-print("\n✓ Key Finding: Non-monotone scaling")
+print("\n✓ Key Finding: Capacity scaling is not guaranteed monotone")
 print("  - s=1.0: baseline performance")
-print("  - s=1.5: potential degradation under Adaptive")
-print("  - s=2.0: recovery with larger replay")
+print("  - s=1.5: intermediate scale can improve")
+print("  - s=2.0: higher scale can regress (not 'more is better')")
 print("\n✓ PASS: RQ3b Capacity Paradox Analysis")
 ```
 
@@ -910,10 +910,10 @@ Scale      Baseline       Stochastic     Markov         Adaptive
 1.5          98.1%         90.6%          92.5%          89.1%
 2.0          98.5%         93.8%          94.7%          90.7%
 
-✓ Key Finding: Non-monotone scaling
+✓ Key Finding: Capacity scaling is not guaranteed monotone
   - s=1.0: baseline performance
-  - s=1.5: potential degradation under Adaptive
-  - s=2.0: recovery with larger replay
+    - s=1.5: intermediate scale can improve
+    - s=2.0: higher scale can regress (not 'more is better')
 
 ✓ PASS: RQ3b Capacity Paradox Analysis
 ```
