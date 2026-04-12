@@ -162,3 +162,20 @@ print("\n🎉 All oracle fixes verified!")
 ✅ Production ready for Paper7 testbed integration
 
 Your Paper7 (QBGP) experiments can now run without oracle hangs!
+
+---
+
+---
+
+# Approach Writeup — Final Editorial Edits (2026-04-12)
+
+**Scope:** `approach_writeup.tex` — editorial pass only, no `.tex` pushed (author manages locally).
+
+| Section | Change | Reason |
+|---|---|---|
+| §1 Clinical sentence | `"can become less responsive to"` → `"are blind to"` | Remove hedge; evidence in cited work supports confident claim |
+| §1 Closing sentence | `"comparable"` → `"structurally comparable"` | Restore structural bridge claim at first mention |
+| §3 COVID paragraph | Restored named groups (Black, Latino, other minority); `"can become"` → `"is"` | Both §2 and §3 had demographic specificity removed simultaneously in prior space-cut pass, leaving zero evidentiary specificity in the paper; restored at same word count |
+| §4.1 Phase 1 | `"threat signals, reproducing"` → `"threat signals---thereby reproducing"` | Fix comma splice introduced when em-dash was removed in prior edit |
+
+Full edit log: [`docs/paper12/PAPER12_WRITEUP_FINAL_EDITS.md`](paper12/PAPER12_WRITEUP_FINAL_EDITS.md)
