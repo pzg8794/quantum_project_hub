@@ -1,29 +1,45 @@
-# GA-Work Repository
+# Quantum Project Hub
 
-This repository contains research projects, testbeds, and documentation for quantum computing and network routing research.
+This repository organizes research workstreams, experiment testbeds, and supporting documentation for quantum networking and learning-based routing projects.
 
-## Main Research Framework
+## Purpose
 
-The primary research framework is the **Quantum Multi-Armed Bandit Research Framework** for adversarial quantum entanglement routing. See the detailed documentation in [hybrid_variable_framework/README.md](hybrid_variable_framework/README.md).
+- Provide a single navigation point across active quantum-routing experiments.
+- Keep testbed implementations discoverable and reproducible.
+- Separate production-style framework work from exploratory testbeds.
 
-## Documentation
+## Key areas
 
-All documentation is organized in the [docs/](docs/) directory. See [docs/INDEX.md](docs/INDEX.md) for a complete index of available documentation.
+- `testbeds/`: focused experiment repositories (for example, EXPNeuralUCB and related RL/CMAB tracks).
+- `docs/`: project-level notes, plans, and reference documentation.
+- `experiments/`: run artifacts and experiment coordination material.
+- `tools/`: helper scripts used for local workflows.
 
-## Projects
+## Quick start
 
-- [hybrid_variable_framework/](hybrid_variable_framework/) - **Main Framework**: Quantum Multi-Armed Bandit Research Framework for adversarial quantum routing
-- [clustered-quantum-routing/](clustered-quantum-routing/) - Clustered quantum routing implementation
-- [Testbeds/](Testbeds/) - Collection of quantum network testbeds
-- [quantum_project_hub/](quantum_project_hub/) - Quantum project hub (documentation moved to docs/)
-- [GA Papers/](GA Papers/) - Research papers and development
-- [GraduateAssistantCV/](GraduateAssistantCV/) - CV and resume materials
+1. Review repository structure and active tracks:
 
-## Getting Started
+```bash
+ls -la
+ls -la testbeds
+```
 
-See the [Quick Start Guide](docs/guides/QUICK_START_GUIDE.md) for setup instructions, or the framework's [TL;DR guide](hybrid_variable_framework/README.md#⚡-tldr--get-started-in-5-minutes) for immediate setup.
+2. Open the target testbed README and follow its run instructions:
 
-## Requirements
+- `testbeds/EXPNeuralUCB/README.md`
+- `testbeds/Paper8-RL_Entanglement_Routing/README.md`
+- `testbeds/CMAB-CoMM/README.md`
 
-See [requirements.txt](requirements.txt) for Python dependencies.</content>
-<parameter name="filePath">/Users/pitergarcia/DataScience/Semester4/GA-Work/README.md
+## Documentation standard
+
+Each testbed README should include:
+
+- Problem scope and objective.
+- Environment/dependency requirements.
+- Quick start commands.
+- Expected outputs.
+- Reproducibility notes.
+
+## Reviewer note
+
+If you are evaluating this work for applications or research readiness, start with the testbed READMEs under `testbeds/` and then cross-reference `docs/` for design and planning context.
